@@ -1,0 +1,41 @@
+﻿@model TestMVC.Models.Usuario
+
+@{
+    ViewBag.Title = "Vista del Producto " + @Html.DisplayFor(model => model.login);
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_persona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_persona)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.activo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.id_usuario }) |
+    @Html.ActionLink("Volver al Inicio", "Index")
+</p>

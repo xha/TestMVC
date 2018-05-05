@@ -1,0 +1,71 @@
+﻿@model IEnumerable<TestMVC.Models.Persona>
+
+@{
+    ViewBag.Title = "Personas";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<center>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Create","Persona")'">Crear Nuevo</button>
+    <br /><br />
+</center>
+<table class="tablas inicial00">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fecha_nacimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.activo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.cedula)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fecha_nacimiento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.direccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.correo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.telefono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.activo)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.id_persona }) |
+            @Html.ActionLink("Ver", "Details", new { id = item.id_persona }) |
+            @Html.ActionLink("Desactivar", "Delete", new { id = item.id_persona })
+        </td>
+    </tr>
+    }
+
+</table>

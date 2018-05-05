@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Bienvenido Usuario: "+Session["login"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="jumbotron">
+    <h1>Test de Clod Solutions Sencillo</h1>
+</div>
+<button class="btn btn-primary" onclick="location.href='@Url.Action("Login")'">Login</button>
