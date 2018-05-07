@@ -14,9 +14,6 @@ namespace TestMVC
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/usuario").Include(
-                        "~/Scripts/usuario.js"));
-
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // para la producción, use la herramienta de compilación disponible en https://modernizr.com para seleccionar solo las pruebas que necesite.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -30,6 +27,20 @@ namespace TestMVC
                       "~/Content/bootstrap.css",
                       "~/Content/general.css",
                       "~/Content/site.css"));
+            /************************************************************************************************/
+            //AGREGADOS HL 06/05/2018
+            bundles.Add(new ScriptBundle("~/bundles/usuario").Include(
+                        "~/Scripts/usuario.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/login").Include(
+                        "~/Scripts/login.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/producto").Include(
+                        "~/Scripts/producto.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/persona").Include(
+                        "~/Scripts/persona.js"));
+            /************************************************************************************************/
         }
     }
 }

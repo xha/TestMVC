@@ -1,31 +1,29 @@
-﻿function buscar_persona() {
-    var id = document.getElementById('id_persona');
-    var nombre = document.getElementById('nombre_persona');
-
-    if (id.value !== "") {
-        nombre.value = "";
-        $.getJSON('BuscarPersona', { id: id.value }, function (data) {
-            if (data !== "") {
-                nombre.value = data.nombre;
-            } else {
-                id.value = "";
-            }
-        });
+﻿$(function () {
+    if (document.getElementById('clave').value != "") {
+        document.getElementById('clave').value = atob(document.getElementById('clave').value);
     }
-}
+});
 
-function buscar_usuario() {
-    var usuario = document.getElementById('login');
-    var nombre = document.getElementById('nombre_persona').value;
-    var id = document.getElementById('id_persona');
+function enviar_data() {
+    var clave = document.getElementById('clave');
+    var login = document.getElementById('login');
+    var msg = document.getElementById('msg');
 
-    if (nombre == "") id.value = "";
-    if (usuario.value !== "") {
-        $.get('BuscarUsuario', { usuario : usuario.value }, function (data) {
-            if (data > 0) {
-                alert("Usuario Existente");
-                usuario.value = "";
-            }
-        });
+    if ((clave.value != "") && (login.value != "")) {
+        if (login.readOnly) {
+            clave.value = btoa(clave.value);
+            document.forms['0'].submit();
+        } else {
+            $.get('BuscarUsuario', { usuario: login.value }, function (data) {
+                if (data > 0) {
+                    msg.innerHTML = "Usuario '" + login.value + "' ya existe";
+                    login.value = "";
+                    login.focus();
+                } else {
+                    clave.value = btoa(clave.value);
+                    document.forms['0'].submit();
+                }
+            });
+        }
     }
 }

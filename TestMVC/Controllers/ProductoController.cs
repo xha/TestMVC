@@ -51,10 +51,11 @@ namespace TestMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_producto,descripcion,marca,cantidad,costo,activo")] Producto producto)
+        public ActionResult Create([Bind(Include = "id_producto,descripcion,marca,cantidad,costo,activo,id_usuario")] Producto producto)
         {
             if (ModelState.IsValid)
             {
+                producto.id_usuario = Convert.ToInt32(Session["id_usuario"]);
                 db.Producto.Add(producto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,10 +84,11 @@ namespace TestMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_producto,descripcion,marca,cantidad,costo,activo")] Producto producto)
+        public ActionResult Edit([Bind(Include = "id_producto,descripcion,marca,cantidad,costo,activo,id_usuario")] Producto producto)
         {
             if (ModelState.IsValid)
             {
+                producto.id_usuario = Convert.ToInt32(Session["id_usuario"]);
                 db.Entry(producto).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -117,8 +119,7 @@ namespace TestMVC.Controllers
             Producto producto = db.Producto.Find(id);
             //db.Producto.Remove(producto);
             string query = "UPDATE Producto SET activo=0 WHERE id_producto=@p0";
-            db.Producto.SqlQuery(query, id);
-            db.SaveChanges();
+            db.Producto.SqlQuery(query, id).FirstOrDefaultAsync();
             return RedirectToAction("Index");
         }
 

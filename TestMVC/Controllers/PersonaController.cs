@@ -50,10 +50,11 @@ namespace TestMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_persona,nombre,cedula,fecha_nacimiento,direccion,correo,telefono,activo")] Persona persona)
+        public ActionResult Create([Bind(Include = "id_persona,nombre,cedula,fecha_nacimiento,direccion,correo,telefono,activo,id_usuario")] Persona persona)
         {
             if (ModelState.IsValid)
             {
+                persona.id_usuario = Convert.ToInt32(Session["id_usuario"]);
                 db.Persona.Add(persona);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,10 +83,11 @@ namespace TestMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_persona,nombre,cedula,fecha_nacimiento,direccion,correo,telefono,activo")] Persona persona)
+        public ActionResult Edit([Bind(Include = "id_persona,nombre,cedula,fecha_nacimiento,direccion,correo,telefono,activo,id_usuario")] Persona persona)
         {
             if (ModelState.IsValid)
             {
+                persona.id_usuario = Convert.ToInt32(Session["id_usuario"]);
                 db.Entry(persona).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -114,9 +116,8 @@ namespace TestMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Persona persona = db.Persona.Find(id);
-            string query = "UPDATE Persona SET activo=0 WHERE id_producto=@p0";
-            db.Producto.SqlQuery(query, id);
-            db.SaveChanges();
+            string query = "UPDATE Persona SET activo=0 WHERE id_persona=@p0";
+            db.Persona.SqlQuery(query, id).FirstOrDefaultAsync();
             return RedirectToAction("Index");
         }
 

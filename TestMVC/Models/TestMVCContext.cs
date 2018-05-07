@@ -37,6 +37,7 @@ namespace TestMVC.Models
         public decimal cantidad { get; set; }
         public decimal costo { get; set; }
         public bool activo { get; set; }
+        public int id_usuario { get; set; }
     }
 
     [Table("Persona")]
@@ -45,14 +46,15 @@ namespace TestMVC.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id_persona { get; set; }
+        public string cedula { get; set; }
         public string nombre { get; set; }
         public char sexo { get; set; }
         public DateTime fecha_nacimiento { get; set; }
         public string direccion { get; set; }
         public string correo { get; set; }
         public string telefono { get; set; }
-        public string cedula { get; set; }
         public bool activo { get; set; }
+        public int id_usuario { get; set; }
     }
 
     [Table("Usuario")]
@@ -61,11 +63,11 @@ namespace TestMVC.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id_usuario { get; set; }
-        public int id_persona { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "El login no puede estar vacio.")]
         public string login { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "La clave no puede estar vacia.")]
         public string clave { get; set; }
+        public DateTime fecha_registro { get; set; }
         public bool activo { get; set; }
     }
 }

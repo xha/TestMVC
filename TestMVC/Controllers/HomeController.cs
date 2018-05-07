@@ -38,27 +38,9 @@ namespace TestMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login([Bind(Include = "id_usuario,login,clave")] Usuario usuario)
+        public ActionResult Login([Bind(Include = "login,clave")] Usuario usuario)
         {
             if (ModelState.IsValid) {
-                //string query = "SELECT * FROM Usuario WHERE login=@p0";
-                //var resultado = db.Usuario.SqlQuery(query, usuario).Count();
-                /*var obj = db.Usuario.Where(model => model.login.Equals(model.login) && model.clave.Equals(model.clave)).FirstOrDefault();
-
-                if (obj != null) {
-                    Session["id_usuario"] = obj.id_usuario.ToString();
-                    Session["login"] = obj.login.ToString();
-                    return RedirectToAction("Index");
-                }*/
-                /*using (var cmdr = new SqlCommand("Select id_usuario From Usuario where login=@name and clave=@password and activo=1")) {
-                    cmdr.Parameters.AddWithValue("@name", usuario.login);
-                    cmdr.Parameters.AddWithValue("@password", usuario.clave);
-                    if (cmdr.ExecuteReader().HasRows) {
-                        return RedirectToAction("Login");
-                    } else {
-                        return RedirectToAction("Index");
-                    }
-                }*/
                 string query = "Select * From Usuario where login=@p0 and clave=@p1 and activo=1";
                 var num = db.Usuario.SqlQuery(query, usuario.login, usuario.clave).Count();
                 if (num>0) {
@@ -68,7 +50,8 @@ namespace TestMVC.Controllers
                     return RedirectToAction("Index");
                 } else {
                     Session.Abandon();
-                    return RedirectToAction("Login");
+                    ViewBag.Message = "Error en el Login";
+                    return View();
                 }
             }
             return RedirectToAction("Login");

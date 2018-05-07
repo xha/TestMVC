@@ -51,10 +51,11 @@ namespace TestMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_usuario,id_persona,login,clave,activo")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "id_usuario,fecha_registro,login,clave,activo")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
+                usuario.fecha_registro = DateTime.Now;
                 db.Usuario.Add(usuario);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,7 +84,7 @@ namespace TestMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_usuario,id_persona,login,clave,activo")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "id_usuario,fecha_registro,login,clave,activo")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -130,9 +131,15 @@ namespace TestMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Usuario usuario = db.Usuario.Find(id);
-            db.Usuario.Remove(usuario);
+            /*Usuario usuario = db.Usuario.Find(id);
+            usuario.activo = false;
             db.SaveChanges();
+            return RedirectToAction("Index");*/
+            //SqlCommand cmd = new SqlCommand("UPDATE Usuario SET activo=0 WHERE login=@p0");
+            //cmd.ExecuteNonQuery();
+
+            string query = "UPDATE Usuario SET activo=0 WHERE id_usuario=@p0";
+            db.Usuario.SqlQuery(query, id).FirstOrDefaultAsync();
             return RedirectToAction("Index");
         }
 

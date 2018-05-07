@@ -5,13 +5,14 @@
 }
 
 <h2>Login</h2>
+
 @using (Html.BeginForm("Login", "Home", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <div class="form-group">
-        <label class = "control-label col-md-1">Usuario</label>
+        <label class="control-label col-md-1">Usuario</label>
         <div class="col-md-10">
             @Html.EditorFor(model => model.login, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.login, "", new { @class = "text-danger" })
@@ -28,7 +29,12 @@
     <br /><br />
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Login" class="btn btn-primary" />
+            <label class="btn btn-primary" onclick="enviar_data()">Login</label>
         </div>
     </div>
+}
+
+<h3 class="text-danger" id="msg">@ViewBag.Message</h3>
+@section Scripts {
+    @Scripts.Render("~/bundles/login")
 }
