@@ -116,8 +116,8 @@ namespace TestMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Persona persona = db.Persona.Find(id);
-            string query = "UPDATE Persona SET activo=0 WHERE id_persona=@p0";
-            db.Persona.SqlQuery(query, id).FirstOrDefaultAsync();
+            persona.activo = false;
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

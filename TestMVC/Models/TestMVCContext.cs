@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace TestMVC.Models
 {
@@ -47,6 +48,7 @@ namespace TestMVC.Models
         [Key]
         public int id_persona { get; set; }
         public string cedula { get; set; }
+        public IEnumerable<SelectListItem> nombres { get; set; }
         public string nombre { get; set; }
         public char sexo { get; set; }
         public DateTime fecha_nacimiento { get; set; }
@@ -63,6 +65,8 @@ namespace TestMVC.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id_usuario { get; set; }
+        public IEnumerable<SelectListItem> id_personas { get; set; }
+        public int id_persona { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "El login no puede estar vacio.")]
         public string login { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "La clave no puede estar vacia.")]

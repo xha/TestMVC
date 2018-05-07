@@ -117,9 +117,8 @@ namespace TestMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Producto producto = db.Producto.Find(id);
-            //db.Producto.Remove(producto);
-            string query = "UPDATE Producto SET activo=0 WHERE id_producto=@p0";
-            db.Producto.SqlQuery(query, id).FirstOrDefaultAsync();
+            producto.activo = false;
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

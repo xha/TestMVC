@@ -19,7 +19,31 @@ namespace TestMVC.Controllers
         public ActionResult Index()
         {
             if (Session["id_usuario"] != null) {
-                return View(db.Usuario.ToList());
+                //string query = "SELECT * FROM Persona WHERE activo=1 ORDER BY nombre";
+                //ViewBag.ListItem = db.Persona.SqlQuery(query).ToList();
+                //return View(db.Usuario.ToList());
+                //var union = db.Usuario.Join(db.Persona, u => u.id_persona, p => p.id_persona, (u, p) => new { u, p }).Where(x => x.p.activo == true).ToList();
+                IEnumerable<Usuario> q = (from p in db.Persona
+                                          join u in db.Usuario on p.id_persona equals u.id_persona
+                                          select new
+                                          {
+                                              id_usuario = u.id_usuario,
+                                              id_persona = u.id_persona,
+                                              nombre = p.nombre,
+                                              login = u.login,
+                                              fecha_registro = u.fecha_registro,
+                                              activo = u.activo,
+                                          }).ToList()
+                           .Select(x => new Usuario
+                           {
+                               id_usuario = x.id_usuario,
+                               id_persona = x.id_persona,
+                               clave = x.nombre,
+                               login = x.login,
+                               fecha_registro = x.fecha_registro,
+                               activo = x.activo,
+                           });
+            return View(q);
             } else {
                 return RedirectToAction("../Home/Login");
             }
@@ -43,6 +67,8 @@ namespace TestMVC.Controllers
         // GET: Usuario/Create
         public ActionResult Create()
         {
+            string query = "SELECT * FROM Persona WHERE activo=1 ORDER BY nombre";
+            ViewBag.ListItem = db.Persona.SqlQuery(query).ToList();
             return View();
         }
 
@@ -51,7 +77,7 @@ namespace TestMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_usuario,fecha_registro,login,clave,activo")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "id_usuario,id_persona,fecha_registro,login,clave,activo")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -76,6 +102,8 @@ namespace TestMVC.Controllers
             {
                 return HttpNotFound();
             }
+            string query = "SELECT * FROM Persona WHERE activo=1 ORDER BY nombre";
+            ViewBag.ListItem = db.Persona.SqlQuery(query).ToList();
             return View(usuario);
         }
 
@@ -84,7 +112,7 @@ namespace TestMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_usuario,fecha_registro,login,clave,activo")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "id_usuario,id_persona,fecha_registro,login,clave,activo")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -137,9 +165,11 @@ namespace TestMVC.Controllers
             return RedirectToAction("Index");*/
             //SqlCommand cmd = new SqlCommand("UPDATE Usuario SET activo=0 WHERE login=@p0");
             //cmd.ExecuteNonQuery();
-
-            string query = "UPDATE Usuario SET activo=0 WHERE id_usuario=@p0";
-            db.Usuario.SqlQuery(query, id).FirstOrDefaultAsync();
+            //string query = "UPDATE Usuario SET activo=0 WHERE id_usuario=@p0";
+            //db.Usuario.SqlQuery(query, id).FirstOrDefaultAsync();
+            Usuario usuario = db.Usuario.Find(id);
+            usuario.activo = false;
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
